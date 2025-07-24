@@ -1,0 +1,42 @@
+# Dependencias
+node_modules/
+
+# Entornos y credenciales
+.env
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Directorios de build / cobertura
+dist/
+build/
+coverage/
+.tmp/
+.temp/
+
+# Cachés de herramientas
+.eslintcache
+.stylelintcache
+.cache/
+.next/
+.nuxt/
+.svelte-kit/
+vite.svg
+vite.config.ts.timestamp-*
+
+# Sistemas operativos / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Otros
+*.sqlite
+*.pid
+*.seed

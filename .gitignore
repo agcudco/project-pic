@@ -1,0 +1,9 @@
+# Backend
+project-back/node_modules/
+project-back/build/
+project-back/.env
+
+# Frontend
+project-front/node_modules/
+project-back/build/
+project-front/.env
