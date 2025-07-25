@@ -5,14 +5,6 @@ CREATE TABLE modulo (
     estado BOOLEAN DEFAULT true
 );
 
-
-CREATE TABLE modulo (
-    id SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    descripcion TEXT,
-    estado BOOLEAN DEFAULT true
-);
-
 -- Insertar datos de prueba directamente en la tabla
 INSERT INTO modulo (nombre, descripcion, estado) VALUES
 ('Usuarios', 'Gestión de usuarios del sistema', true),
