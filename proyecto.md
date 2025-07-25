@@ -65,3 +65,91 @@ Desarrollar un sistema web que permita gestionar el ciclo completo de ventas de 
 - GET    /api/reportes/top-productos?top=10
 
 *Nota:* Todos los endpoints deben devolver JSON y usar códigos HTTP semánticos (200, 201, 204, 400, 404, 409, 500). Autenticación opcional: JWT en header Authorization.
+
+# Promociones y Descuentos
+
+Permitir la creación, gestión y aplicación automática de promociones y descuentos en productos específicos, categorías o por volumen de compra, mejorando la estrategia de ventas y fidelización de clientes.
+
+## Funcionalidades:
+### Gestión de Promociones
+
+**CRUD de promociones (nombre, tipo, condiciones, periodo de validez, estado activo/inactivo).**
+
+#### Tipos de promociones:
+
+- Por producto: aplica un % de descuento a productos específicos.
+
+- Por categoría: aplica un % de descuento a todos los productos de una categoría.
+
+- Por monto total: si el total de la venta supera cierto monto, aplica un descuento global.
+
+- Por cantidad: ejemplo, 2x1 o 3 productos por el precio de 2.
+
+#### Aplicación Automática en Carrito de Compras
+- Las promociones activas se aplican automáticamente al momento de agregar productos al carrito si se cumplen las condiciones.
+
+- Visualización del total con y sin descuento.
+
+- Registro en detalle de venta del tipo y valor de descuento aplicado.
+
+#### Control de Vigencia
+- Fecha de inicio y fin de cada promoción.
+
+- Inhabilitación automática de promociones vencidas.
+
+#### Reportes de Promociones
+- Ventas realizadas bajo promociones.
+
+- Productos con mayor impacto promocional.
+
+- Comparativa entre ventas con y sin promociones.
+
+### Reglas de Negocio
+- Las promociones no deben hacer que el precio de venta final sea menor al costo.
+
+- No se pueden aplicar múltiples promociones sobre un mismo ítem (salvo reglas específicas).
+
+- Las promociones se aplican solo si están activas y dentro del rango de fechas.
+
+### Tablas
+```sql
+promocion(
+  id SERIAL PRIMARY KEY,
+  nombre VARCHAR(100),
+  tipo VARCHAR(20), -- producto, categoria, monto_total, cantidad
+  valor NUMERIC, -- puede ser porcentaje o cantidad fija
+  condicion_json JSONB, -- para reglas específicas
+  fecha_inicio DATE,
+  fecha_fin DATE,
+  activa BOOLEAN DEFAULT true
+)
+
+promocion_producto(
+  promocion_id INT REFERENCES promocion(id),
+  producto_id INT REFERENCES producto(id)
+)
+
+promocion_categoria(
+  promocion_id INT REFERENCES promocion(id),
+  categoria_id INT REFERENCES categoria(id)
+)
+
+venta_promocion(
+  id SERIAL PRIMARY KEY,
+  venta_id INT REFERENCES venta(id),
+  promocion_id INT REFERENCES promocion(id),
+  monto_descuento NUMERIC
+)
+
+```
+
+### Endpoints
+```bash
+GET    /api/promociones
+POST   /api/promociones
+PUT    /api/promociones/:id
+DELETE /api/promociones/:id
+GET    /api/promociones/activas
+GET    /api/promociones/producto/:productoId
+GET    /api/reportes/promociones?desde=&hasta=
+```
