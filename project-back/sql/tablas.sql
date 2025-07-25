@@ -24,6 +24,7 @@ CREATE TABLE rol_modulo (
 
 CREATE TABLE usuario (
     id_usuario SERIAL PRIMARY KEY,
+    cedula VARCHAR(10) unique NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     contrasena VARCHAR(255) NOT NULL,
