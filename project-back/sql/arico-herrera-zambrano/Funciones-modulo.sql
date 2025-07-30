@@ -1,4 +1,5 @@
--- Nos aseguramos de usar el esquema correcto
+-- funciones modulo
+
 SET search_path = public;
 
 -- 1. Obtener todos los módulos
@@ -44,7 +45,7 @@ DECLARE
   nuevo_modulo modulo;
 BEGIN
   INSERT INTO modulo(nombre, descripcion)
-       VALUES (p_nombre, p_descripcion)
+       VALUES (UPPER(p_nombre), UPPER(p_descripcion))
   RETURNING * INTO nuevo_modulo;
 
   RETURN nuevo_modulo;
@@ -66,8 +67,8 @@ DECLARE
   mod_actualizado modulo;
 BEGIN
   UPDATE modulo
-     SET nombre      = p_nombre,
-         descripcion = p_descripcion,
+     SET nombre      = UPPER(p_nombre),
+         descripcion = UPPER(p_descripcion),
          activo      = p_activo
    WHERE id = p_id
   RETURNING * INTO mod_actualizado;
@@ -90,6 +91,36 @@ $$
 LANGUAGE plpgsql;
 
 
+-- 6. Obtener módulos por estado (activo/inactivo)
+CREATE OR REPLACE FUNCTION obtener_modulos_por_estado(p_activo BOOLEAN)
+RETURNS SETOF modulo AS
+$$
+BEGIN
+  RETURN QUERY
+    SELECT * 
+      FROM modulo
+     WHERE activo = p_activo
+     ORDER BY id;
+END;
+$$
+LANGUAGE plpgsql;
+
+
+-- 7. Buscar módulos por nombre (búsqueda parcial)
+CREATE OR REPLACE FUNCTION buscar_modulos_por_nombre(p_nombre VARCHAR)
+RETURNS SETOF modulo AS
+$$
+BEGIN
+  RETURN QUERY
+    SELECT * 
+      FROM modulo
+     WHERE UPPER(nombre) LIKE UPPER('%' || p_nombre || '%')
+     ORDER BY nombre;
+END;
+$$
+LANGUAGE plpgsql;
+
+
 -- Ejemplos de uso:
 
 -- Listar todos
@@ -103,6 +134,12 @@ SELECT * FROM obtener_modulo(1);
 
 -- Actualizar
 SELECT * FROM actualizar_modulo(1, 'Ventas v2', 'Actualizado para incluir devoluciones', TRUE);
+
+-- Obtener módulos activos
+SELECT * FROM obtener_modulos_por_estado(TRUE);
+
+-- Buscar módulos por nombre
+SELECT * FROM buscar_modulos_por_nombre('vent');
 
 -- Borrar
 SELECT eliminar_modulo(1);
