@@ -15,9 +15,7 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
 
-// >>> Ruta raíz
 app.get('/', (_req, res) => res.send('Hola mundo'));
-// o: res.json({ message: 'Hola mundo' });
 
 // Rutas principales
 app.use('/api', homeRoutes);
