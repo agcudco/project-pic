@@ -94,3 +94,5 @@ class Usuario {
     return result.rows[0]; // Devuelve el usuario inactivado
   }
 }
+
+export default Usuario;
