@@ -39,7 +39,7 @@ export async function getRolesByUserId(req, res) {
     }
 }
 
-// Editar contraseña
+// Editar contraseña del usuario
 export async function updatePassword(req, res) {
     const { id } = req.params;
     const { nuevaContrasenia } = req.body;
