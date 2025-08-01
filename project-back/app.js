@@ -25,4 +25,11 @@ app.use('/api', moduloRoutes);
 app.use('/api', rolRoutes); 
 app.use('/api', menuRoutes); 
 
+//categoria
+//aqui
+
+//producto
+//aqui
+
+
 export default app;
