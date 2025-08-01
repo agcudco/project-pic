@@ -7,6 +7,7 @@ import homeRoutes from './routes/homeRoutes.js';
 import moduloRoutes from './routes/moduloRoutes.js';
 import rolRoutes from './routes/rolRoutes.js';
 import menuRoutes from './routes/menuRoutes.js';
+import rolmoduloRoutes from './routes/rolmoduloRoutes.js';
 
 const app = express();
 
@@ -22,7 +23,8 @@ app.get('/', (_req, res) => res.send('Hola mundo'));
 // Rutas principales
 app.use('/api', homeRoutes);
 app.use('/api', moduloRoutes); 
-app.use('/api', rolRoutes); 
+app.use('/api', rolRoutes);
+app.use('/api', rolmoduloRoutes); 
 app.use('/api', menuRoutes); 
 
 export default app;

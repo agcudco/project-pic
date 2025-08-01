@@ -1,4 +1,5 @@
 import {getAll,getByIds,create,update,remove} from '../models/RolModulo.js';
+import { pool } from '../config/db.js';
 
 export async function getAllRolModulos(req, res) {
   try {
@@ -23,10 +24,25 @@ export async function getRolModuloByIds(req, res) {
 }
 
 export async function createRolModulo(req, res) {
+  const { id_rol, id_modulo } = req.body;
+
+  if (id_rol === undefined || id_modulo === undefined) {
+    return res.status(400).json({ error: "Faltan parámetros id_rol o id_modulo" });
+  }
+
   try {
-    const nuevoRolModulo = await create(req.body);
+    // Llamada al procedimiento almacenado crear_rol_modulo
+    const result = await pool.query(
+      `SELECT * FROM crear_rol_modulo($1, $2)`,
+      [id_rol, id_modulo]
+    );
+
+    // El procedimiento devuelve un solo registro con la asignación creada
+    const nuevoRolModulo = result.rows[0];
+
     res.status(201).json(nuevoRolModulo);
   } catch (error) {
+    console.error("Error al crear rol_modulo:", error);
     res.status(500).json({ error: error.message });
   }
 }

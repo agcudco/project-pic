@@ -10,7 +10,7 @@ class RolModulo {
 }
 
 export async function getAll() {
-  const result = await pool.query('SELECT * FROM obtener_rol_modulo()');
+  const result = await pool.query('SELECT * FROM obtener_rol_modulos()');
   return result.rows.map(row => new RolModulo(row));
 }
 
