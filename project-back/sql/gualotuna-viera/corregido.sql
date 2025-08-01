@@ -37,6 +37,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql VOLATILE;
 
+
+
 -- Ventas en los ultimos 30 días
 CREATE OR REPLACE FUNCTION ventas.obtener_ventas_ultimos_30_dias()
 RETURNS TABLE(fecha DATE, total NUMERIC) AS

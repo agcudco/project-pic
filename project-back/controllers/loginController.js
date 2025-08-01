@@ -1,6 +1,7 @@
 import { query } from '../config/db.js';
 
 // Login: valida usuario y contraseña usando la función almacenada
+//Commit
 export async function login(req, res) {
     const { usuario, contrasenia } = req.body;
     try {
@@ -22,5 +23,3 @@ export async function login(req, res) {
         res.status(500).json({ error: error.message });
     }
 }
-
-
