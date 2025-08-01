@@ -1,4 +1,4 @@
-import Producto from '../models/Producto.js';
+import Producto from '../models/Dashboard.js';
 
 export async function getAllProductos(req, res) {
   try {
@@ -44,6 +44,6 @@ export async function deleteProducto(req, res) {
     if (!eliminado) return res.status(404).json({ message: 'Producto no encontrado' });
     res.json({ message: 'Producto eliminado correctamente' });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message});
   }
 }
