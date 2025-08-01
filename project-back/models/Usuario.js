@@ -57,7 +57,7 @@ class Usuario {
       [cedula, nombres, apellidos, email, telefono, contrasenia, id_rol, tipo_cliente, razon_social]
     );
 
-    return new Usuario({ ...result.rows[0], id_rol, tipo_cliente, razon_social });
+    return new Usuario(result.rows[0]);
   }
 
   // Actualizar un usuario completo
@@ -79,7 +79,7 @@ class Usuario {
       [id, cedula, nombres, apellidos, email, telefono, contrasenia, id_rol, tipo_cliente, razon_social]
     );
 
-    return new Usuario({ ...result.rows[0], id_rol, tipo_cliente, razon_social });
+    return new Usuario(result.rows[0]);
   }
 
   // Eliminar un usuario completamente
