@@ -1,3 +1,5 @@
+
+//REALIZADO POR ELIAN COLLAGUAZO 
 // app.js
 import express, { json } from 'express';
 import cors from 'cors';
@@ -7,6 +9,7 @@ import homeRoutes from './routes/homeRoutes.js';
 import moduloRoutes from './routes/moduloRoutes.js';
 import rolRoutes from './routes/rolRoutes.js';
 import menuRoutes from './routes/menuRoutes.js';
+import ventaRoutes from './routes/ventaRoutes.js'; 
 
 const app = express();
 
@@ -24,5 +27,6 @@ app.use('/api', homeRoutes);
 app.use('/api', moduloRoutes); 
 app.use('/api', rolRoutes); 
 app.use('/api', menuRoutes); 
+app.use('/api', ventaRoutes); // O cualquier otro prefijo que desees
 
 export default app;
