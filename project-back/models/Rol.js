@@ -1,4 +1,4 @@
-import pool from '../config/db.js';
+ import pool from '../config/db.js';
 
 class Rol {
   constructor({ id, nombre, descripcion, estado, created_at, updated_at }) {
