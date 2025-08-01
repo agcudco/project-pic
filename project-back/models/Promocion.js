@@ -46,6 +46,8 @@ class Promocion {
     return result.rows.map(row => new Promocion(row));
   }
 
+
+  //====================================================================
   static async create(data) {
     const { 
       nombre, 
