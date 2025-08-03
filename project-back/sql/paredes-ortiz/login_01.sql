@@ -1,7 +1,7 @@
+-- Active: 1754156374522@@127.0.0.1@5432@project_db
 --Funcione para Login
 
 SET search_path = public;
-
 
 -- Obtener usuario
 CREATE OR REPLACE FUNCTION obtener_usuario(p_id INT)
@@ -19,8 +19,6 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
-
 
 -- Funciones para obtener roles
 CREATE OR REPLACE FUNCTION obtener_roles()
