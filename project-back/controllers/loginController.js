@@ -32,21 +32,23 @@ export async function login(req, res) {
 export async function getRolesByUserId(req, res) {
   const { id } = req.params;
   try {
-    // Llamada directa a la consulta sin función para testear:
+    // Usando el procedimiento almacenado obtener_roles_usuario
     const result = await query(
-      `SELECT r.* FROM rol r
-       JOIN rol_usuario ru ON ru.id_rol = r.id
-       WHERE ru.id_usuario = $1
-         AND ru.activo = TRUE
-         AND r.activo = TRUE`,
+      'SELECT * FROM obtener_roles_usuario($1)',
       [id]
     );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: 'No se encontraron roles para este usuario' });
+    }
+
     res.json(result.rows);
   } catch (error) {
     console.error('Error en getRolesByUserId:', error);
     res.status(500).json({ error: error.message });
   }
 }
+
 
 
 // ==================
