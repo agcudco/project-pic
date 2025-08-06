@@ -1,22 +1,31 @@
 import React, { useState } from 'react';
-<<<<<<< HEAD
-import LoginTable from './LoginDataTable';
-=======
-import LoginTable from './LoginTable';
->>>>>>> origin/Paredes_04
+import LoginDataTable from './LoginDataTable';
 import LoginForm from './LoginForm';
+import type { Role, Login } from '../../types/login';
 
-export default function LoginManager() {
-    const [selectedUser, setSelectedUser] = useState(null);
+const LoginComponent: React.FC = () => {
+  const [selectedUser, setSelectedUser] = useState<Login | null>(null);
 
-    return (
-        <div className="p-grid">
-            <div className="p-col-7">
-                <LoginTable onEdit={setSelectedUser} />
-            </div>
-            <div className="p-col-5">
-                {selectedUser && <LoginForm user={selectedUser} />}
-            </div>
-        </div>
-    );
-}
+  const handleEdit = (role: Role) => {
+    const fakeUser: Login = {
+      id: 1,
+      email: 'usuario@example.com',
+      contrasenia: '',
+      roles: [role],
+    };
+    setSelectedUser(fakeUser);
+  };
+
+  return (
+    <div className="p-grid p-dir-col">
+      <div className="p-col">
+        <LoginDataTable onEdit={handleEdit} />
+      </div>
+      <div className="p-col mt-4">
+        {selectedUser && <LoginForm user={selectedUser} />}
+      </div>
+    </div>
+  );
+};
+
+export default LoginComponent;
