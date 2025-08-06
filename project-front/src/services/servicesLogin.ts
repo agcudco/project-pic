@@ -1,4 +1,4 @@
-import { Login, Role } from '../types/loginType';
+import { Login, Role } from '../types/login';
 
 const API_URL = 'http://localhost:3000/api';
 
