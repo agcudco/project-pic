@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { updatePassword } from '../services/loginService';
+import { getAllRoles, updatePassword } from '../../services/servicesLogin';
 import { Toast } from 'primereact/toast';
 
 export default function LoginForm({ user }) {

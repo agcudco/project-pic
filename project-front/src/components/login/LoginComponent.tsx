@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import LoginTable from './LoginTable';
+import LoginTable from './LoginDataTable';
 import LoginForm from './LoginForm';
 
 export default function LoginManager() {
