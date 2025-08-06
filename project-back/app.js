@@ -1,3 +1,4 @@
+
 // app.js
 import express, { json } from 'express';
 import cors from 'cors';
@@ -8,6 +9,7 @@ import moduloRoutes from './routes/moduloRoutes.js';
 import rolRoutes from './routes/rolRoutes.js';
 import menuRoutes from './routes/menuRoutes.js';
 import loginRoutes from './routes/loginRoutes.js';
+import ventaRoutes from './routes/ventaRoutes.js'; 
 
 const app = express();
 
@@ -16,22 +18,17 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
 
-// >>> Ruta raíz
 app.get('/', (_req, res) => res.send('Hola mundo'));
-// o: res.json({ message: 'Hola mundo' });
 
 // Rutas principales
 app.use('/api', homeRoutes);
 app.use('/api', moduloRoutes); 
 app.use('/api', rolRoutes); 
 app.use('/api', menuRoutes); 
+
 app.use('/api', loginRoutes);
+app.use('/api', ventaRoutes); 
 
-//categoria
-//aqui
-
-//producto
-//aqui
 
 
 export default app;
