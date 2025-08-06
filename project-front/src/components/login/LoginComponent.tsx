@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import LoginTable from './LoginDataTable';
+=======
+import LoginTable from './LoginTable';
+>>>>>>> origin/Paredes_04
 import LoginForm from './LoginForm';
 
 export default function LoginManager() {
