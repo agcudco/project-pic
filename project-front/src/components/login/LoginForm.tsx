@@ -1,53 +1,51 @@
 import React, { useState, useRef } from 'react';
 import { InputText } from 'primereact/inputtext';
+import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import { updatePassword } from '../../services/servicesLogin';
+import { login } from '../../services/servicesLogin';
 import type { Login } from '../../types/login';
 
 interface LoginFormProps {
-  user: Login;
+  onLogin: (user: Login) => void;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ user }) => {
-  const [nuevaContrasenia, setNuevaContrasenia] = useState('');
+const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
+  const [email, setEmail] = useState('');
+  const [contrasenia, setContrasenia] = useState('');
   const toast = useRef<Toast>(null);
 
   const handleSubmit = async () => {
     try {
-      await updatePassword(user.id, nuevaContrasenia);
+      const user = await login(email, contrasenia);
+      onLogin(user);
       toast.current?.show?.({
         severity: 'success',
         summary: 'Éxito',
-        detail: 'Contraseña actualizada correctamente',
+        detail: 'Sesión iniciada correctamente',
       });
     } catch {
       toast.current?.show?.({
         severity: 'error',
         summary: 'Error',
-        detail: 'No se pudo actualizar la contraseña',
+        detail: 'Credenciales inválidas',
       });
     }
   };
 
   return (
-    <div>
+    <div className="login-form">
       <Toast ref={toast} />
-      <h3>Actualizar Contraseña para {user.email}</h3>
-      <span className="p-float-label">
-        <InputText
-          id="nuevaContrasenia"
-          value={nuevaContrasenia}
-          onChange={(e) => setNuevaContrasenia(e.target.value)}
-        />
-        <label htmlFor="nuevaContrasenia">Nueva Contraseña</label>
-      </span>
-      <Button
-        label="Guardar"
-        icon="pi pi-save"
-        className="p-button-success mt-2"
-        onClick={handleSubmit}
-      />
+      <h2>Iniciar Sesión</h2>
+      <div className="p-field">
+        <label htmlFor="email">Correo</label>
+        <InputText id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      </div>
+      <div className="p-field">
+        <label htmlFor="password">Contraseña</label>
+        <Password id="password" value={contrasenia} onChange={(e) => setContrasenia(e.target.value)} feedback={false} />
+      </div>
+      <Button label="Ingresar" icon="pi pi-sign-in" onClick={handleSubmit} className="p-button-success mt-3" />
     </div>
   );
 };

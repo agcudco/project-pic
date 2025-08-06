@@ -10,24 +10,16 @@ export const login = async (email: string, contrasenia: string): Promise<Login> 
   });
 
   if (!response.ok) {
-    throw new Error('Error en login');
+    throw new Error('Credenciales inválidas');
   }
 
-  return response.json();
-};
-
-export const getAllRoles = async (): Promise<Role[]> => {
-  const response = await fetch(`${API_URL}/roles`);
-  if (!response.ok) {
-    throw new Error('Error al obtener roles');
-  }
   return response.json();
 };
 
 export const getRolesByUserId = async (id: number): Promise<Role[]> => {
   const response = await fetch(`${API_URL}/roles/${id}`);
   if (!response.ok) {
-    throw new Error('Error al obtener roles de usuario');
+    throw new Error('Error al obtener roles');
   }
   return response.json();
 };

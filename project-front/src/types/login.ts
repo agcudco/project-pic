@@ -7,6 +7,6 @@ export interface Role {
 export interface Login {
   id: number;
   email: string;
-  contrasenia: string;
+  contrasenia?: string;
   roles: Role[];
 }
