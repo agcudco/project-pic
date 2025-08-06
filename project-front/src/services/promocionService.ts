@@ -1,74 +1,113 @@
-import { apiRequest } from './api.js';
 import type { Promocion, PromocionFormData, AplicarDescuentoRequest, AplicarDescuentoResponse } from '../types/promocion.js';
 
-export class PromocionService {
+// Configuración base de la API
+const API_BASE_URL = 'http://localhost:3000/api';
+
+export const PromocionService = {
   // Obtener todas las promociones
-  static async getAllPromociones(): Promise<Promocion[]> {
-    return apiRequest('/promociones');
-  }
+  getAllPromociones() {
+    return fetch(`${API_BASE_URL}/promociones`, {
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then((res) => res.json())
+      .then((data) => data as Promocion[]);
+  },
 
   // Obtener promoción por ID
-  static async getPromocionById(id: number): Promise<Promocion> {
-    return apiRequest(`/promociones/${id}`);
-  }
+  getPromocionById(id: number) {
+    return fetch(`${API_BASE_URL}/promociones/${id}`, {
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then((res) => res.json())
+      .then((data) => data as Promocion);
+  },
 
   // Obtener promociones activas
-  static async getPromocionesActivas(): Promise<Promocion[]> {
-    return apiRequest('/promociones-activas');
-  }
+  getPromocionesActivas() {
+    return fetch(`${API_BASE_URL}/promociones-activas`, {
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then((res) => res.json())
+      .then((data) => data as Promocion[]);
+  },
 
   // Obtener promociones vigentes (por fechas)
-  static async getPromocionesVigentes(): Promise<Promocion[]> {
-    return apiRequest('/promociones-vigentes');
-  }
+  getPromocionesVigentes() {
+    return fetch(`${API_BASE_URL}/promociones-vigentes`, {
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then((res) => res.json())
+      .then((data) => data as Promocion[]);
+  },
 
   // Obtener promociones por tipo
-  static async getPromocionesPorTipo(tipo: string): Promise<Promocion[]> {
-    return apiRequest(`/promociones/tipo/${tipo}`);
-  }
+  getPromocionesPorTipo(tipo: string) {
+    return fetch(`${API_BASE_URL}/promociones/tipo/${tipo}`, {
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then((res) => res.json())
+      .then((data) => data as Promocion[]);
+  },
 
   // Crear nueva promoción
-  static async createPromocion(data: PromocionFormData): Promise<Promocion> {
-    return apiRequest('/promociones', {
+  createPromocion(data: PromocionFormData) {
+    return fetch(`${API_BASE_URL}/promociones`, {
       method: 'POST',
-      body: JSON.stringify(data),
-    });
-  }
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then((res) => res.json())
+      .then((data) => data as Promocion);
+  },
 
   // Actualizar promoción
-  static async updatePromocion(id: number, data: PromocionFormData): Promise<Promocion> {
-    return apiRequest(`/promociones/${id}`, {
+  updatePromocion(id: number, data: PromocionFormData) {
+    return fetch(`${API_BASE_URL}/promociones/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(data),
-    });
-  }
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then((res) => res.json())
+      .then((data) => data as Promocion);
+  },
 
   // Eliminar promoción
-  static async deletePromocion(id: number): Promise<void> {
-    return apiRequest(`/promociones/${id}`, {
+  deletePromocion(id: number) {
+    return fetch(`${API_BASE_URL}/promociones/${id}`, {
       method: 'DELETE',
-    });
-  }
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then((res) => res.json());
+  },
 
   // Activar promoción
-  static async activarPromocion(id: number): Promise<Promocion> {
-    return apiRequest(`/promociones/${id}/activar`, {
+  activarPromocion(id: number) {
+    return fetch(`${API_BASE_URL}/promociones/${id}/activar`, {
       method: 'PATCH',
-    });
-  }
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then((res) => res.json())
+      .then((data) => data as Promocion);
+  },
 
   // Desactivar promoción
-  static async desactivarPromocion(id: number): Promise<Promocion> {
-    return apiRequest(`/promociones/${id}/desactivar`, {
+  desactivarPromocion(id: number) {
+    return fetch(`${API_BASE_URL}/promociones/${id}/desactivar`, {
       method: 'PATCH',
-    });
-  }
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then((res) => res.json())
+      .then((data) => data as Promocion);
+  },
 
   // Aplicar descuento
-  static async aplicarDescuento(data: AplicarDescuentoRequest): Promise<AplicarDescuentoResponse> {
-    return apiRequest('/promociones/aplicar-descuento', {
+  aplicarDescuento(data: AplicarDescuentoRequest) {
+    return fetch(`${API_BASE_URL}/promociones/aplicar-descuento`, {
       method: 'POST',
-      body: JSON.stringify(data),
-    });
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then((res) => res.json())
+      .then((data) => data as AplicarDescuentoResponse);
   }
-}
+};

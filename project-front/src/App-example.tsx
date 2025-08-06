@@ -1,10 +1,10 @@
-import { DescuentosPage } from './components/descuentos/index.js';
+import PromocionPage from './components/promociones/PromocionPage.js';
 
-// Ejemplo de uso del componente de descuentos
+// Ejemplo de uso del componente de promociones (solo 3 componentes)
 function App() {
   return (
     <div className="App">
-      <DescuentosPage />
+      <PromocionPage />
     </div>
   );
 }
