@@ -6,11 +6,25 @@ const API_BASE_URL = 'http://localhost:3000/api';
 export const DescuentoService = {
     // Obtener todos los descuentos
     getAllDescuentos() {
+        console.log('🔍 Llamando a API descuentos...');
         return fetch(`${API_BASE_URL}/descuentos`, {
             headers: { 'Content-Type': 'application/json' }
         })
-            .then((res) => res.json())
-            .then((data) => data as Descuento[]);
+            .then((res) => {
+                console.log('📡 Respuesta de la API:', res.status, res.statusText);
+                if (!res.ok) {
+                    throw new Error(`Error HTTP: ${res.status} - ${res.statusText}`);
+                }
+                return res.json();
+            })
+            .then((data) => {
+                console.log('✅ Datos transformados:', data);
+                return data as Descuento[];
+            })
+            .catch((error) => {
+                console.error('❌ Error en getAllDescuentos:', error);
+                throw error;
+            });
     },
 
     // Obtener descuento por ID
@@ -44,22 +58,48 @@ export const DescuentoService = {
 
     // Actualizar descuento
     updateDescuento(id: number, descuento: DescuentoFormData) {
+        console.log('🔍 Actualizando descuento ID:', id);
+        console.log('📝 Datos a enviar:', descuento);
+        
         return fetch(`${API_BASE_URL}/descuentos/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(descuento)
         })
-            .then((res) => res.json())
-            .then((data) => data as Descuento);
+            .then((res) => {
+                console.log('📡 Respuesta del servidor (status):', res.status);
+                return res.json();
+            })
+            .then((data) => {
+                console.log('✅ Descuento actualizado:', data);
+                return data as Descuento;
+            })
+            .catch((error) => {
+                console.error('❌ Error en updateDescuento:', error);
+                throw error;
+            });
     },
 
     // Eliminar descuento
     deleteDescuento(id: number) {
+        console.log('🗑️ Eliminando descuento ID:', id);
+        
         return fetch(`${API_BASE_URL}/descuentos/${id}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }
         })
-            .then((res) => res.json());
+            .then((res) => {
+                console.log('📡 Respuesta del servidor (status):', res.status);
+                return res.json();
+            })
+            .then((data) => {
+                console.log('✅ Descuento eliminado:', data);
+                return data;
+            })
+            .catch((error) => {
+                console.error('❌ Error en deleteDescuento:', error);
+                throw error;
+            });
     },
 
     // Activar descuento

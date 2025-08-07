@@ -24,10 +24,20 @@ const DescuentoPage: React.FC = () => {
         setLoading(true);
         DescuentoService.getAllDescuentos()
             .then((data) => {
-                setDescuentos(data);
+                console.log('✅ Datos recibidos del backend:', data);
+                // Verificar que data es un array
+                if (Array.isArray(data)) {
+                    setDescuentos(data);
+                } else {
+                    console.error('❌ Los datos no son un array:', data);
+                    setDescuentos([]); // Establecer array vacío
+                    showError('Error: Los datos recibidos no tienen el formato correcto');
+                }
             })
-            .catch(() => {
-                showError('Error al cargar descuentos');
+            .catch((error) => {
+                console.error('❌ Error al cargar descuentos:', error);
+                setDescuentos([]); // Establecer array vacío en caso de error
+                showError('Error al cargar descuentos: ' + error.message);
             })
             .finally(() => {
                 setLoading(false);

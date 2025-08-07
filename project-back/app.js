@@ -15,10 +15,22 @@ import rolmoduloRoutes from './routes/rolmoduloRoutes.js';
 
 const app = express();
 
-app.use(json());
+// Middleware mejorado para debugging
+app.use(json({ limit: '10mb' })); // Aumentar límite si es necesario
 app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
+
+// Middleware global de logging
+app.use((req, res, next) => {
+  if (req.method === 'PUT' && req.path.includes('/descuentos/')) {
+    console.log('🔍 MIDDLEWARE GLOBAL - PUT descuentos');
+    console.log('Path:', req.path);
+    console.log('Body:', req.body);
+    console.log('Content-Type:', req.headers['content-type']);
+  }
+  next();
+});
 
 app.get('/', (_req, res) => res.send('Hola mundo'));
 

@@ -21,7 +21,7 @@ const DescuentoForm: React.FC<DescuentoFormProps> = ({
 }) => {
     const [formData, setFormData] = useState<DescuentoFormData>({
         nombre: '',
-        porcentaje: 0,
+        valor: 0,
         tipo: 'porcentaje',
         activo: true
     });
@@ -29,21 +29,21 @@ const DescuentoForm: React.FC<DescuentoFormProps> = ({
 
     const tiposDescuento = [
         { label: 'Porcentaje', value: 'porcentaje' },
-        { label: 'Monto Fijo', value: 'fijo' }
+        { label: 'Monto Fijo', value: 'monto_fijo' }
     ];
 
     useEffect(() => {
         if (descuento) {
             setFormData({
                 nombre: descuento.nombre,
-                porcentaje: descuento.porcentaje,
+                valor: descuento.valor,
                 tipo: descuento.tipo,
                 activo: descuento.activo
             });
         } else {
             setFormData({
                 nombre: '',
-                porcentaje: 0,
+                valor: 0,
                 tipo: 'porcentaje',
                 activo: true
             });
@@ -65,8 +65,20 @@ const DescuentoForm: React.FC<DescuentoFormProps> = ({
 
     const footer = (
         <>
-            <Button label="Cancelar" icon="pi pi-times" outlined onClick={handleHide} />
-            <Button label="Guardar" icon="pi pi-check" onClick={handleSave} />
+            <Button 
+                label="Cancelar" 
+                icon="pi pi-times" 
+                outlined 
+                onClick={handleHide} 
+                severity="secondary"
+            />
+            <Button 
+                label="Guardar" 
+                icon="pi pi-check" 
+                onClick={handleSave} 
+                severity="success"
+                disabled={!formData.nombre.trim() || !formData.valor || !formData.tipo}
+            />
         </>
     );
 
@@ -105,13 +117,13 @@ const DescuentoForm: React.FC<DescuentoFormProps> = ({
             </div>
 
             <div className="field">
-                <label htmlFor="porcentaje">
+                <label htmlFor="valor">
                     {formData.tipo === 'porcentaje' ? 'Porcentaje (%)' : 'Monto Fijo ($)'} *
                 </label>
                 <InputNumber
-                    id="porcentaje"
-                    value={formData.porcentaje}
-                    onValueChange={(e: any) => setFormData({ ...formData, porcentaje: e.value || 0 })}
+                    id="valor"
+                    value={formData.valor}
+                    onValueChange={(e: any) => setFormData({ ...formData, valor: e.value || 0 })}
                     mode="decimal"
                     minFractionDigits={0}
                     maxFractionDigits={2}

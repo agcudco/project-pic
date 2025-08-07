@@ -76,8 +76,20 @@ const PromocionForm: React.FC<PromocionFormProps> = ({
 
     const footer = (
         <>
-            <Button label="Cancelar" icon="pi pi-times" outlined onClick={handleHide} />
-            <Button label="Guardar" icon="pi pi-check" onClick={handleSave} />
+            <Button 
+                label="Cancelar" 
+                icon="pi pi-times" 
+                outlined 
+                onClick={handleHide} 
+                severity="secondary"
+            />
+            <Button 
+                label="Guardar" 
+                icon="pi pi-check" 
+                onClick={handleSave} 
+                severity="success"
+                disabled={!formData.nombre.trim() || !formData.porcentaje || !formData.tipo}
+            />
         </>
     );
 

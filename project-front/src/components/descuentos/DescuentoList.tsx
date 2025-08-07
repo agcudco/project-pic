@@ -62,7 +62,7 @@ const DescuentoList: React.FC<DescuentoListProps> = ({
     const valorBodyTemplate = (rowData: Descuento) => {
         return (
             <span>
-                {rowData.tipo === 'fijo' ? '$' : ''}{rowData.porcentaje}
+                {rowData.tipo === 'fijo' ? '$' : ''}{rowData.valor}
                 {rowData.tipo === 'porcentaje' ? '%' : ''}
             </span>
         );
@@ -108,7 +108,7 @@ const DescuentoList: React.FC<DescuentoListProps> = ({
             >
                 <Column field="nombre" header="Nombre" sortable style={{ minWidth: '12rem' }}></Column>
                 <Column field="tipo" header="Tipo" body={tipoBodyTemplate} sortable style={{ minWidth: '10rem' }}></Column>
-                <Column field="porcentaje" header="Valor" body={valorBodyTemplate} sortable style={{ minWidth: '8rem' }}></Column>
+                <Column field="valor" header="Valor" body={valorBodyTemplate} sortable style={{ minWidth: '8rem' }}></Column>
                 <Column field="activo" header="Estado" body={statusBodyTemplate} sortable style={{ minWidth: '8rem' }}></Column>
                 <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
             </DataTable>
