@@ -9,8 +9,10 @@ import moduloRoutes from './routes/moduloRoutes.js';
 import rolRoutes from './routes/rolRoutes.js';
 import menuRoutes from './routes/menuRoutes.js';
 import promocionRoutes from './routes/promocionRoutes.js';
-import ventaRoutes from './routes/ventaRoutes.js'; 
-import categoriaRoutes from './routes/categoriaRoutes.js';
+import ventaRoutes from './routes/ventaRoutes.js';
+import accionRoutes from './routes/acciones.js';
+import usuarioRoutes from './routes/usuarioRoutes.js';
+import rolmoduloRoutes from './routes/rolmoduloRoutes.js'; 
 
 
 const app = express();
@@ -29,5 +31,8 @@ app.use('/api', moduloRoutes);
 app.use('/api', rolRoutes); 
 app.use('/api', menuRoutes); 
 app.use('/api', promocionRoutes); 
-app.use('/api', ventaRoutes); 
+app.use('/api', ventaRoutes);
+app.use('/api', accionRoutes);
+app.use('/api', usuarioRoutes);
+app.use('/api', rolmoduloRoutes); 
 export default app;
