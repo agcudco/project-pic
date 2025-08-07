@@ -14,6 +14,7 @@ import accionRoutes from './routes/acciones.js';
 import usuarioRoutes from './routes/usuarioRoutes.js';
 import rolmoduloRoutes from './routes/rolmoduloRoutes.js'; 
 
+import loginRoutes from './routes/loginRoutes.js';
 
 const app = express();
 
@@ -35,4 +36,7 @@ app.use('/api', ventaRoutes);
 app.use('/api', accionRoutes);
 app.use('/api', usuarioRoutes);
 app.use('/api', rolmoduloRoutes); 
+app.use('/api', loginRoutes);
+
+
 export default app;
