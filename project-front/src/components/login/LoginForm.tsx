@@ -34,18 +34,30 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   };
 
   return (
-    <div className="login-form">
+    <div className="login-form" style={{
+      maxWidth: 400,
+      margin: '4rem auto',
+      padding: '2.5rem 2rem',
+      borderRadius: 16,
+      background: '#fff',
+      boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '1.5rem',
+    }}>
       <Toast ref={toast} />
-      <h2>Iniciar Sesión</h2>
-      <div className="p-field">
-        <label htmlFor="email">Correo</label>
-        <InputText id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      <span className="pi pi-user" style={{ fontSize: 48, color: '#2196F3', marginBottom: 8 }}></span>
+      <h2 style={{ margin: 0, color: '#222', fontWeight: 700 }}>Iniciar Sesión</h2>
+      <div className="p-field" style={{ width: '100%' }}>
+        <label htmlFor="email" style={{ fontWeight: 500 }}>Correo</label>
+        <InputText id="email" value={email} onChange={(e) => setEmail(e.target.value)} style={{ width: '100%' }} placeholder="ejemplo@email.com" />
       </div>
-      <div className="p-field">
-        <label htmlFor="password">Contraseña</label>
-        <Password id="password" value={contrasenia} onChange={(e) => setContrasenia(e.target.value)} feedback={false} />
+      <div className="p-field" style={{ width: '100%' }}>
+        <label htmlFor="password" style={{ fontWeight: 500 }}>Contraseña</label>
+        <Password id="password" value={contrasenia} onChange={(e) => setContrasenia(e.target.value)} feedback={false} style={{ width: '100%' }} inputStyle={{ width: '100%' }} toggleMask placeholder="********" />
       </div>
-      <Button label="Ingresar" icon="pi pi-sign-in" onClick={handleSubmit} className="p-button-success mt-3" />
+      <Button label="Ingresar" icon="pi pi-sign-in" onClick={handleSubmit} className="p-button-success mt-3" style={{ width: '100%' }} />
     </div>
   );
 };

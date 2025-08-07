@@ -1,6 +1,4 @@
 import React, { useRef, useState } from 'react';
-import { Menubar } from 'primereact/menubar';
-import { Menu } from 'primereact/menu';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Toast } from 'primereact/toast';
@@ -14,34 +12,9 @@ interface UserMenuProps {
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({ user, onLogout }) => {
-  const menu = useRef<Menu>(null);
   const toast = useRef<Toast>(null);
   const [showDialog, setShowDialog] = useState(false);
   const [newPassword, setNewPassword] = useState('');
-
-  const items = [
-    {
-      label: user.email,
-      icon: 'pi pi-user',
-    },
-    {
-      label: 'Actualizar Contraseña',
-      icon: 'pi pi-key',
-      command: () => setShowDialog(true),
-    },
-    {
-      label: 'Roles',
-      icon: 'pi pi-shield',
-      items: user.roles.map((role) => ({
-        label: role.nombre,
-      })),
-    },
-    {
-      label: 'Cerrar Sesión',
-      icon: 'pi pi-sign-out',
-      command: () => onLogout(),
-    },
-  ];
 
   const handlePasswordChange = async () => {
     try {
@@ -62,14 +35,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ user, onLogout }) => {
   };
 
   return (
-    <>
+    <div className="user-menu p-p-4 text-center">
       <Toast ref={toast} />
-      <Menubar
-        end={
-          <Button icon="pi pi-user" className="p-button-rounded p-button-info" onClick={(e) => menu.current?.toggle(e)} />
-        }
-      />
-      <Menu model={items} popup ref={menu} />
+      <h2>Bienvenido {user.email} {user.roles?.map((role) => role.nombre).join(', ') || 'Sin roles'}</h2>
+      <p>Tus roles: {user.roles?.map((role) => role.nombre).join(', ') || 'Sin roles'}</p>
+
+      <Button label="Actualizar Contraseña" icon="pi pi-key" onClick={() => setShowDialog(true)} className="p-button-success m-2" />
+      <Button label="Cerrar Sesión" icon="pi pi-sign-out" onClick={onLogout} className="p-button-danger m-2" />
 
       <Dialog header="Actualizar Contraseña" visible={showDialog} onHide={() => setShowDialog(false)}>
         <div className="p-fluid">
@@ -80,7 +52,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user, onLogout }) => {
           <Button label="Actualizar" icon="pi pi-save" onClick={handlePasswordChange} className="p-button-success mt-2" />
         </div>
       </Dialog>
-    </>
+    </div>
   );
 };
 

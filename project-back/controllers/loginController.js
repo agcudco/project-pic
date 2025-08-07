@@ -19,8 +19,26 @@ export async function login(req, res) {
             'SELECT * FROM usuario WHERE email = $1',
             [email]
         );
+        const user = userResult.rows[0];
 
-        res.json(userResult.rows[0]);
+        // Obtener roles del usuario
+        const rolesResult = await query(
+            'SELECT * FROM obtener_roles_usuario($1)',
+            [user.id]
+        );
+        const roles = rolesResult.rows;
+
+        // Mensaje de rol
+        let mensajeRol = 'No tiene roles asignados';
+        if (roles.length > 0) {
+            mensajeRol = `Su rol es: ${roles.map(r => r.nombre).join(', ')}`;
+        }
+
+        res.json({
+            ...user,
+            roles,
+            mensajeRol
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

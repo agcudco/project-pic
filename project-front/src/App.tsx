@@ -1,17 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import LoginComponent from './components/login/LoginComponent';
-import './App.css'
+import IndexPage from './IndexPage';
+import type { Login } from './types/login';
+import './App.css';
 
 function App() {
+  const [user, setUser] = useState<Login | null>(null);
+
   return (
-    <div className="App">
-      <h1>Portal de Autenticación</h1>
-      <LoginComponent />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginComponent setUser={setUser} />} />
+        <Route path="/index" element={<IndexPage user={user} />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Router>
   );
 }
-
 
 export default App

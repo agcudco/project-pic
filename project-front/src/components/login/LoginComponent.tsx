@@ -1,21 +1,44 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import UserMenu from './UserMenu';
-import type { Login } from '../../types/login';
+import type { Login, Role } from '../../types/login';
+import { getRolesByUserId } from '../../services/servicesLogin';
 
-const LoginComponent: React.FC = () => {
-  const [user, setUser] = useState<Login | null>(null);
+interface LoginComponentProps {
+  setUser: (user: Login) => void;
+}
 
-  const handleLogin = (loggedUser: Login) => {
-    setUser(loggedUser);
+const LoginComponent: React.FC<LoginComponentProps> = ({ setUser }) => {
+  const [user, setUserLocal] = useState<Login | null>(null);
+  const navigate = useNavigate();
+
+  const handleLogin = async (loggedUser: Login) => {
+    try {
+      let roles: Role[] = [];
+      try {
+        roles = await getRolesByUserId(loggedUser.id);
+        if (!Array.isArray(roles)) roles = [];
+      } catch (e) {
+        roles = [];
+      }
+      const userWithRoles = { ...loggedUser, roles };
+      setUserLocal(userWithRoles);
+      setUser(userWithRoles);
+      navigate('/index');
+    } catch (err) {
+      console.error('Error al obtener roles:', err);
+    }
   };
 
   const handleLogout = () => {
-    setUser(null);
+    setUserLocal(null);
+    setUser(null as any);
+    navigate('/');
   };
 
   return (
-    <div>
+    <div className="p-m-4">
       {!user ? (
         <LoginForm onLogin={handleLogin} />
       ) : (
