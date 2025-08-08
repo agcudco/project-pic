@@ -1,4 +1,7 @@
--- Asignar módulo a rol
+
+-- Estas son porciacaso jiji xd
+
+-- Asignar módulo a rol 
 -- Esta función asigna un módulo a un rol específico en la base de datos.
 CREATE OR REPLACE FUNCTION asignar_modulo_a_rol(
     p_id_rol INT,
