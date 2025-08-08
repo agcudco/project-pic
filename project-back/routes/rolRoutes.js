@@ -10,8 +10,11 @@ import {
     assignModuloToRol,
     removeModuloFromRol
 } from '../controllers/rolController.js';
+import { getRolesByUserId } from '../controllers/rolesUsuarioController.js';
 
 // Rutas básicas CRUD
+
+// Rutas para gestión de roles
 router.get('/roles', getAllRoles);
 router.get('/roles/:id', getRolById);
 router.post('/roles', createRol);
