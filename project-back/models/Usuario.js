@@ -27,7 +27,8 @@ class Usuario {
 
   // Obtener todos los usuarios
   static async getAll() {
-    const result = await pool.query('SELECT * FROM get_todos_usuarios()');
+    //const result = await pool.query('SELECT * FROM get_todos_usuarios()');
+    const result = await pool.query('SELECT * FROM list_all_usuarios()');
     return result.rows.map(row => new Usuario(row));
   }
 

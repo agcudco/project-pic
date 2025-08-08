@@ -1,53 +1,60 @@
-import { useState } from 'react'
-import 'primereact/resources/themes/lara-light-blue/theme.css'
-import 'primereact/resources/primereact.min.css'
-import 'primeicons/primeicons.css'
-import './App.css'
-import DescuentoPage from './components/descuentos/DescuentoPage.js'
-import PromocionPage from './components/promociones/PromocionPage.js'
+import React, { useContext, useRef } from 'react';
+import type { ReactNode, RefObject } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { Toast } from 'primereact/toast';
+import { AuthContext } from './context/AuthContext';
 
-function App() {
-  const [activeTab, setActiveTab] = useState<'descuentos' | 'promociones'>('descuentos')
+import Login from './components/login/Login';
+import Roles from './components/Roles/Roles';
+import Admin from './components/Admin/Admin';
+import User from './components/User/User';
 
-  return (
-    <div style={{ padding: '20px' }}>
-      <h1>Sistema de Gestión - Descuentos y Promociones</h1>
-      
-      {/* Navegación simple */}
-      <div style={{ marginBottom: '20px' }}>
-        <button 
-          onClick={() => setActiveTab('descuentos')}
-          style={{
-            padding: '10px 20px',
-            marginRight: '10px',
-            backgroundColor: activeTab === 'descuentos' ? '#007ad9' : '#f0f0f0',
-            color: activeTab === 'descuentos' ? 'white' : 'black',
-            border: '1px solid #ccc',
-            cursor: 'pointer',
-            borderRadius: '4px'
-          }}
-        >
-          Gestión de Descuentos
-        </button>
-        <button 
-          onClick={() => setActiveTab('promociones')}
-          style={{
-            padding: '10px 20px',
-            backgroundColor: activeTab === 'promociones' ? '#007ad9' : '#f0f0f0',
-            color: activeTab === 'promociones' ? 'white' : 'black',
-            border: '1px solid #ccc',
-            cursor: 'pointer',
-            borderRadius: '4px'
-          }}
-        >
-          Gestión de Promociones
-        </button>
-      </div>
-
-      {/* Contenido */}
-      {activeTab === 'descuentos' ? <DescuentoPage /> : <PromocionPage />}
-    </div>
-  )
+interface PrivateRouteProps {
+  children: ReactNode;
 }
 
-export default App
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+  const { user } = useContext(AuthContext);
+  return user ? <>{children}</> : <Navigate to="/" replace />;
+};
+
+const App: React.FC = () => {
+  // El ref es Toast | null
+  const toast = useRef<Toast | null>(null);
+
+  return (
+    <>
+      <Toast ref={toast} />
+      <Routes>
+        <Route path="/" element={<Login toast={toast} />} />
+        <Route
+          path="/roles"
+          element={
+            <PrivateRoute>
+              <Roles />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute>
+              <Admin />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/user"
+          element={
+            <PrivateRoute>
+              <User />
+            </PrivateRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
+  );
+};
+
+export default App;
