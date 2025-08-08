@@ -50,15 +50,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setUser(userData);
 
     // 2) Obtener roles del usuario logueado
-    const rolesRes = await fetch(buildUrl(`/api/roles/${userData.id}`), {
+    const rolesRes = await fetch(buildUrl(`/api/roles/usuario/${userData.id}`), {
       headers: { 'Content-Type': 'application/json' }
     });
     if (!rolesRes.ok) {
       throw new Error('No se pudieron obtener los roles');
     }
 
-    const rolesData: string[] = await rolesRes.json();
-    setRoles(rolesData);
+    // rolesData será un array de objetos rol, extraemos el nombre
+    const rolesData = await rolesRes.json();
+    const rolesNames = Array.isArray(rolesData) ? rolesData.map(r => r.nombre) : [];
+    setRoles(rolesNames);
   };
 
   const logout = () => {
