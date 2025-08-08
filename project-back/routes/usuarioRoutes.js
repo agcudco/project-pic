@@ -17,7 +17,4 @@ router.post('/usuarios', createUsuario);
 router.put('/usuarios/:id', updateUsuario);
 router.delete('/usuarios/:id', deleteUsuario);
 
-// Ruta para inactivar usuario (baja lógica)
-router.patch('/usuarios/:id/desactivar', deactivateUsuario);
-
 export default router;

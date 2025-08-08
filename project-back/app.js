@@ -15,8 +15,6 @@ import usuarioRoutes from './routes/usuarioRoutes.js';
 import rolmoduloRoutes from './routes/rolmoduloRoutes.js'; 
 
 import loginRoutes from './routes/loginRoutes.js';
-import loginRoutes from './routes/loginRoutes.js';
-import ventaRoutes from './routes/ventaRoutes.js'; 
 
 const app = express();
 
@@ -28,7 +26,7 @@ app.use(morgan('dev'));
 app.get('/', (_req, res) => res.send('Hola mundo'));
 
 // Rutas principales
-app.use('/api', categoriaRoutes);
+//app.use('/api', categoriaRoutes);
 app.use('/api', homeRoutes);
 app.use('/api', moduloRoutes); 
 app.use('/api', rolRoutes); 
@@ -39,10 +37,6 @@ app.use('/api', accionRoutes);
 app.use('/api', usuarioRoutes);
 app.use('/api', rolmoduloRoutes); 
 app.use('/api', loginRoutes);
-
-
-app.use('/api', loginRoutes);
-app.use('/api', ventaRoutes); 
 
 
 

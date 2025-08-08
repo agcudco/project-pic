@@ -47,13 +47,3 @@ export async function deleteUsuario(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
-
-export async function deactivateUsuario(req, res) {
-  try {
-    const usuarioInactivado = await Usuario.deactivate(req.params.id);
-    if (!usuarioInactivado) return res.status(404).json({ message: 'Usuario no encontrado' });
-    res.json({ message: 'Usuario inactivado correctamente' });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}

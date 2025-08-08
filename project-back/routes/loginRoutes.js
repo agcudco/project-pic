@@ -1,4 +1,3 @@
-import { login, getRolesByUserId, updatePassword } from '../controllers/loginController.js';
 import { login, getRolesByUserId, updatePassword, getAllRoles } from '../controllers/loginController.js';
 
 
