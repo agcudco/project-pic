@@ -4,13 +4,12 @@
 import pool from '../config/db.js';
 
 class Venta {
-  constructor({ id, cliente_id, total, estado, created_at, updated_at }) {
+  constructor({ id, cliente_nombre, total, estado, fecha_hora }) {
     this.id = id;
-    this.cliente_id = cliente_id;
+    this.cliente_nombre = cliente_nombre;
     this.total = total;
     this.estado = estado;
-    this.created_at = created_at;
-    this.updated_at = updated_at;
+    this.fecha_hora = fecha_hora;
   }
 
   static async getAll() {
@@ -23,6 +22,18 @@ class Venta {
     if (result.rowCount === 0) return null;
     return new Venta(result.rows[0]);
   }
+  //REALIZADO POR ELIAN COLLAGUAZO
+
+   static async getDetallesByVentaId(id) {
+    const result = await pool.query('SELECT * FROM ver_detalle_venta_limpia($1)', [id]);
+    return result.rows;
+  }
+
+  static async getFacturaByVentaId(id) {
+  const result = await pool.query('SELECT * FROM ver_factura_simple($1)', [id]);
+  return result.rows;
+  }
+
 
   static async create(data) {
   const { cliente_id, productos, cantidades } = data;

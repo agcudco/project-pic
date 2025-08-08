@@ -1,5 +1,4 @@
 
-//REALIZADO POR ELIAN COLLAGUAZO 
 // app.js
 import express, { json } from 'express';
 import cors from 'cors';
@@ -18,15 +17,13 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
 
-// >>> Ruta raíz
 app.get('/', (_req, res) => res.send('Hola mundo'));
-// o: res.json({ message: 'Hola mundo' });
 
 // Rutas principales
 app.use('/api', homeRoutes);
 app.use('/api', moduloRoutes); 
 app.use('/api', rolRoutes); 
 app.use('/api', menuRoutes); 
-app.use('/api', ventaRoutes); // O cualquier otro prefijo que desees
+app.use('/api', ventaRoutes); 
 
 export default app;

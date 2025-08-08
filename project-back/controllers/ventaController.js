@@ -21,7 +21,34 @@ export async function getVentaById(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
+  //REALIZADO POR JAMES MENA
 
+export async function getDetallesVenta(req, res) {
+  try {
+    const { id } = req.params;
+    const detalles = await Venta.getDetallesByVentaId(id);
+    res.json(detalles);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+export async function getFacturaVenta(req, res) {
+  try {
+    const { id } = req.params;
+
+    const venta = await Venta.getById(id);
+    if (!venta) return res.status(404).json({ message: 'Venta no encontrada' });
+
+    const detalles = await Venta.getFacturaByVentaId(id);
+
+    res.json({
+      venta,
+      detalles
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
 export async function createVenta(req, res) {
   try {
     const { cliente_id, productos, cantidades } = req.body;
