@@ -13,34 +13,34 @@ class Promocion {
   }
 
   static async getAll() {
-    // Usando funciones simplificadas que solo trabajan con promociones
-    const result = await pool.query('SELECT * FROM obtener_promociones()');
-    return result.rows.map(row => new Promocion(row));
+  // Usar solo la función obtener_promociones() y devolver los datos tal como vienen
+  const result = await pool.query('SELECT * FROM obtener_promociones()');
+  return result.rows;
   }
 
   static async getById(id) {
-    // Usando función simplificada
-    const result = await pool.query('SELECT * FROM obtener_promocion($1)', [id]);
-    if (result.rowCount === 0) return null;
-    return new Promocion(result.rows[0]);
+  // Usar solo la función y devolver el objeto tal como viene
+  const result = await pool.query('SELECT * FROM obtener_promocion($1)', [id]);
+  if (result.rowCount === 0) return null;
+  return result.rows[0];
   }
 
   static async getActivas() {
-    // Usando función simplificada
-    const result = await pool.query('SELECT * FROM obtener_promociones_activas()');
-    return result.rows.map(row => new Promocion(row));
+  // Usar solo la función y devolver el array tal como viene
+  const result = await pool.query('SELECT * FROM obtener_promociones_activas()');
+  return result.rows;
   }
 
   static async getByTipo(tipo) {
-    // Usando función simplificada
-    const result = await pool.query('SELECT * FROM obtener_promociones_por_tipo($1)', [tipo]);
-    return result.rows.map(row => new Promocion(row));
+  // Usar solo la función y devolver el array tal como viene
+  const result = await pool.query('SELECT * FROM obtener_promociones_por_tipo($1)', [tipo]);
+  return result.rows;
   }
 
   static async getVigentes() {
-    // Usando función simplificada
-    const result = await pool.query('SELECT * FROM obtener_promociones_vigentes()');
-    return result.rows.map(row => new Promocion(row));
+  // Usar solo la función y devolver el array tal como viene
+  const result = await pool.query('SELECT * FROM obtener_promociones_vigentes()');
+  return result.rows;
   }
 
   static async create(data) {
@@ -53,13 +53,12 @@ class Promocion {
       fecha_fin, 
       activa = true 
     } = data;
-    
-    // Usando función simplificada
+    // Usar solo función crear_promocion y devolver el objeto tal como viene
     const result = await pool.query(
       'SELECT * FROM crear_promocion($1, $2, $3, $4, $5, $6, $7)',
       [nombre, tipo, valor, condicion_json, fecha_inicio, fecha_fin, activa]
     );
-    return new Promocion(result.rows[0]);
+    return result.rows[0];
   }
 
   static async update(id, data) {
@@ -72,33 +71,34 @@ class Promocion {
       fecha_fin, 
       activa 
     } = data;
-    
-    // Usando función simplificada
+    // Usar solo función actualizar_promocion y devolver el objeto tal como viene
     const result = await pool.query(
       'SELECT * FROM actualizar_promocion($1, $2, $3, $4, $5, $6, $7, $8)',
       [id, nombre, tipo, valor, condicion_json, fecha_inicio, fecha_fin, activa]
     );
-    
     if (result.rowCount === 0) return null;
-    return new Promocion(result.rows[0]);
+    return result.rows[0];
   }
 
   static async remove(id) {
-    const result = await pool.query('SELECT * FROM eliminar_promocion($1)', [id]);
-    if (result.rowCount === 0) return null;
-    return new Promocion(result.rows[0]);
+  // Usar solo función eliminar_promocion y devolver el objeto tal como viene
+  const result = await pool.query('SELECT * FROM eliminar_promocion($1)', [id]);
+  if (result.rowCount === 0) return null;
+  return result.rows[0];
   }
 
   static async activar(id) {
-    const result = await pool.query('SELECT * FROM activar_promocion($1)', [id]);
-    if (result.rowCount === 0) return null;
-    return new Promocion(result.rows[0]);
+  // Usar solo función activar_promocion y devolver el objeto tal como viene
+  const result = await pool.query('SELECT * FROM activar_promocion($1)', [id]);
+  if (result.rowCount === 0) return null;
+  return result.rows[0];
   }
 
   static async desactivar(id) {
-    const result = await pool.query('SELECT * FROM desactivar_promocion($1)', [id]);
-    if (result.rowCount === 0) return null;
-    return new Promocion(result.rows[0]);
+  // Usar solo función desactivar_promocion y devolver el objeto tal como viene
+  const result = await pool.query('SELECT * FROM desactivar_promocion($1)', [id]);
+  if (result.rowCount === 0) return null;
+  return result.rows[0];
   }
 
   static async aplicarDescuento(ventaId, promocionId, montoBase = 100, cantidad = 1) {

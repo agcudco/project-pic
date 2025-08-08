@@ -1,3 +1,15 @@
+-- 1b. Obtener todos los descuentos
+CREATE OR REPLACE FUNCTION obtener_descuentos()
+RETURNS SETOF descuento AS
+$$
+BEGIN
+  RETURN QUERY
+    SELECT * 
+      FROM public.descuento
+     ORDER BY id ASC;
+END;
+$$
+LANGUAGE plpgsql;
 -- Funciones SIMPLIFICADAS para el sistema de Promociones y Descuentos
 -- SOLO para tabla promocion - Sin dependencias de otras tablas
 -- Autor: Anahy Herrera - Kevin Lechon
@@ -16,7 +28,7 @@ $$
 BEGIN
   RETURN QUERY
     SELECT * 
-      FROM promocion
+      FROM public.promocion
      ORDER BY fecha_inicio DESC;
 END;
 $$
@@ -31,7 +43,7 @@ DECLARE
 BEGIN
   SELECT *
     INTO promo
-    FROM promocion
+  FROM public.promocion
    WHERE id = p_id;
 
   RETURN promo;
@@ -322,7 +334,7 @@ $$
 BEGIN
   RETURN QUERY
     SELECT * 
-      FROM promocion
+  FROM public.promocion
      WHERE activa = TRUE
      ORDER BY fecha_inicio DESC;
 END;
@@ -336,7 +348,7 @@ $$
 BEGIN
   RETURN QUERY
     SELECT * 
-      FROM promocion
+  FROM public.promocion
      WHERE activa = TRUE 
        AND fecha_inicio <= CURRENT_DATE 
        AND fecha_fin >= CURRENT_DATE
@@ -362,7 +374,7 @@ BEGIN
 
   RETURN QUERY
     SELECT * 
-      FROM promocion
+  FROM public.promocion
      WHERE LOWER(tipo) = LOWER(TRIM(p_tipo))
        AND activa = TRUE
      ORDER BY fecha_inicio DESC;

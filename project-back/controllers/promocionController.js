@@ -3,6 +3,10 @@ import Promocion from '../models/Promocion.js';
 export async function getAllPromociones(req, res) {
   try {
     const promociones = await Promocion.getAll();
+    // Si no hay registros, devolver array vacío
+    if (!promociones || !Array.isArray(promociones)) {
+      return res.json([]);
+    }
     res.json(promociones);
   } catch (error) {
     res.status(500).json({ error: error.message });

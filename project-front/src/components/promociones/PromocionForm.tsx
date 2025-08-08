@@ -88,7 +88,13 @@ const PromocionForm: React.FC<PromocionFormProps> = ({
                 icon="pi pi-check" 
                 onClick={handleSave} 
                 severity="success"
-                disabled={!formData.nombre.trim() || !formData.porcentaje || !formData.tipo}
+                disabled={
+                  !formData.nombre.trim() ||
+                  !formData.tipo ||
+                  !formData.valor ||
+                  !formData.fecha_inicio ||
+                  !formData.fecha_fin
+                }
             />
         </>
     );
