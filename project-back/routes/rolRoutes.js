@@ -23,4 +23,7 @@ router.get('/roles/:id/modulos', getModulosByRol);
 router.post('/roles/:id/modulos', assignModuloToRol);
 router.delete('/roles/:id/modulos', removeModuloFromRol);
 
+// Nueva ruta para obtener roles de usuario
+router.get('/roles/usuario/:id', getRolesByUserId);
+
 export default router;
