@@ -10,6 +10,7 @@ class Rol {
     this.updated_at = updated_at;
   }
 
+  
   static async getAll() {
     const result = await pool.query('SELECT * FROM obtener_roles()');
     return result.rows.map(row => new Rol(row));
@@ -22,10 +23,10 @@ class Rol {
   }
 
   static async create(data) {
-    const { nombre, descripcion, estado } = data;
+    const { nombre, descripcion } = data;
     const result = await pool.query(
-      'SELECT * FROM crear_rol($1, $2, $3)',
-      [nombre, descripcion, estado]
+      'SELECT * FROM crear_rol($1, $2)',
+      [nombre, descripcion]
     );
     return new Rol(result.rows[0]);
   }

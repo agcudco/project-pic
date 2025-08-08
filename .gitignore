@@ -2,6 +2,7 @@
 project-back/node_modules/
 project-back/build/
 project-back/.env
+project-back/app.js
 
 # Frontend
 project-front/node_modules/

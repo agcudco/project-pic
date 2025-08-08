@@ -22,10 +22,10 @@ export async function getById(id) {
 }
 
 export async function create(data) {
-  const { nombre, descripcion, estado } = data;
+  const { nombre, descripcion } = data;
   const result = await pool.query(
-    'SELECT * FROM crear_modulo($1, $2, $3)',
-    [nombre, descripcion, estado]
+    'SELECT * FROM crear_modulo($1, $2)',
+    [nombre, descripcion]
   );
   return new Modulo(result.rows[0]);
 }

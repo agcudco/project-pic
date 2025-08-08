@@ -1,35 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useContext, useRef } from 'react';
+import type { ReactNode, RefObject } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { Toast } from 'primereact/toast';
+import { AuthContext } from './context/AuthContext';
 
-function App() {
-  const [count, setCount] = useState(0)
+import Login from './components/login/Login';
+import Roles from './components/Roles/Roles';
+import Admin from './components/Admin/Admin';
+import User from './components/User/User';
+
+interface PrivateRouteProps {
+  children: ReactNode;
+}
+
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+  const { user } = useContext(AuthContext);
+  return user ? <>{children}</> : <Navigate to="/" replace />;
+};
+
+const App: React.FC = () => {
+  // El ref es Toast | null
+  const toast = useRef<Toast | null>(null);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Toast ref={toast} />
+      <Routes>
+        <Route path="/" element={<Login toast={toast} />} />
+        <Route
+          path="/roles"
+          element={
+            <PrivateRoute>
+              <Roles />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute>
+              <Admin />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/user"
+          element={
+            <PrivateRoute>
+              <User />
+            </PrivateRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
