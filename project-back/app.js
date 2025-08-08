@@ -7,7 +7,6 @@ import moduloRoutes from './routes/moduloRoutes.js';
 import rolRoutes from './routes/rolRoutes.js';
 import menuRoutes from './routes/menuRoutes.js';
 import promocionRoutes from './routes/promocionRoutes.js';
-import descuentoRoutes from './routes/descuentoRoutes.js';
 import ventaRoutes from './routes/ventaRoutes.js';
 import accionRoutes from './routes/acciones.js';
 import usuarioRoutes from './routes/usuarioRoutes.js';
@@ -36,7 +35,6 @@ app.get('/', (_req, res) => res.send('Hola mundo'));
 
 // Rutas principales
 app.use('/api', promocionRoutes);
-app.use('/api', descuentoRoutes);
 app.use('/api', homeRoutes);
 app.use('/api', moduloRoutes); 
 app.use('/api', rolRoutes); 

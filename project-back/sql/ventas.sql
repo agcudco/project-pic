@@ -116,7 +116,7 @@ CREATE TABLE promocion_producto (
   promocion_id INT NOT NULL
     REFERENCES promocion(id)
     ON DELETE CASCADE,
-  producto_id   INT NOT NULL
+  producto_id   INT NOT NULLm
     REFERENCES producto(id)
     ON DELETE CASCADE,
   PRIMARY KEY (promocion_id, producto_id)
