@@ -11,7 +11,7 @@ carrillo - alomia
 paredes - ortiz 
 
 # producto 
-cortez - villacrez
+cortez - villacres
 
 # categoria
 pincha - quinga

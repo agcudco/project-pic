@@ -9,10 +9,12 @@ import moduloRoutes from './routes/moduloRoutes.js';
 import rolRoutes from './routes/rolRoutes.js';
 import menuRoutes from './routes/menuRoutes.js';
 import ventaRoutes from './routes/ventaRoutes.js'; 
+import productoRoutes from './routes/productoRoutes.js';
 
 const app = express();
 
-app.use(json());
+app.use(express.json({ limit: "10mb" }));
+
 app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
@@ -25,5 +27,6 @@ app.use('/api', moduloRoutes);
 app.use('/api', rolRoutes); 
 app.use('/api', menuRoutes); 
 app.use('/api', ventaRoutes); 
+app.use('/api', productoRoutes)
 
 export default app;
