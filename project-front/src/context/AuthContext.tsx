@@ -44,21 +44,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       throw new Error('Credenciales inválidas');
     }
 
-    const userData: User = await res.json();
-
-    console.log(userData);
-    setUser(userData);
-
-    // 2) Obtener roles del usuario logueado
-    const rolesRes = await fetch(buildUrl(`/api/roles/${userData.id}`), {
-      headers: { 'Content-Type': 'application/json' }
-    });
-    if (!rolesRes.ok) {
-      throw new Error('No se pudieron obtener los roles');
-    }
-
-    const rolesData: string[] = await rolesRes.json();
-    setRoles(rolesData);
+    // Nuevo formato: { usuario, roles }
+    const { usuario, roles } = await res.json();
+    setUser(usuario);
+    setRoles(roles);
   };
 
   const logout = () => {

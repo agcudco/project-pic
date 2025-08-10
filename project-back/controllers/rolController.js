@@ -58,6 +58,21 @@ export async function getModulosByRol(req, res) {
     }
 }
 
+// Obtener todos los roles de un usuario logeado
+import { Rol as UserRol } from '../models/User.js';
+export async function getRolesByUserId(req, res) {
+    try {
+        const userId = req.params.id;
+        const roles = await UserRol.findByUserId(userId);
+        if (!roles || roles.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron roles para este usuario' });
+        }
+        res.json(roles);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 export async function assignModuloToRol(req, res) {
     try {
         const { moduloId, permisos } = req.body;

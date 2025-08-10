@@ -19,8 +19,16 @@ export async function login(req, res) {
             'SELECT * FROM usuario WHERE email = $1',
             [email]
         );
+        const usuario = userResult.rows[0];
 
-        res.json(userResult.rows[0]);
+        // Obtener roles del usuario
+        const rolesResult = await query(
+            `SELECT r.* FROM rol r JOIN rol_usuario ru ON ru.id_rol = r.id WHERE ru.id_usuario = $1`,
+            [usuario.id]
+        );
+        const roles = rolesResult.rows;
+
+        res.json({ usuario, roles });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
