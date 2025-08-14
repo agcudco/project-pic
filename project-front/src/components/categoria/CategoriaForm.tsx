@@ -1,42 +1,70 @@
-import React, { useState, useEffect } from 'react';
-import { Dialog } from 'primereact/dialog';
-import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
-import type { Categoria } from '../../types/Categoria';
+import React, { useEffect, useState } from "react";
+import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
+import type { Categoria, CategoriaFormData } from "../../types/Categoria";
 
-interface CategoriaFormProps {
+interface Props {
   visible: boolean;
-  categoria: Categoria;
+  categoria?: Categoria | null;
   onHide: () => void;
-  onSave: (categoria: Categoria) => void;
+  onSave: (data: CategoriaFormData) => void;
 }
 
-export const CategoriaForm: React.FC<CategoriaFormProps> = ({ visible, categoria, onHide, onSave }) => {
-  const [current, setCurrent] = useState<Categoria>(categoria);
+const CategoriaForm: React.FC<Props> = ({
+  visible,
+  categoria,
+  onHide,
+  onSave,
+}) => {
+  const [formData, setFormData] = useState<CategoriaFormData>({ nombre: "" });
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    setCurrent(categoria);
-  }, [categoria]);
+    if (categoria) setFormData({ nombre: categoria.nombre });
+    else setFormData({ nombre: "" });
+    setSubmitted(false);
+  }, [categoria, visible]);
 
-  const save = () => {
-    if (!current.nombre.trim()) return; // Validación simple
-    onSave(current);
-    onHide();
+  const handleSave = () => {
+    setSubmitted(true);
+    if (formData.nombre.trim()) onSave({ nombre: formData.nombre.trim() });
   };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrent({ ...current, nombre: e.target.value });
-  };
+  const footer = (
+    <>
+      <Button label="Cancelar" icon="pi pi-times" outlined onClick={onHide} />
+      <Button label="Guardar" icon="pi pi-check" onClick={handleSave} />
+    </>
+  );
 
   return (
-    <Dialog header={current.id ? 'Editar Categoría' : 'Nueva Categoría'} visible={visible} onHide={onHide}>
-      <div className="p-fluid">
-        <div className="p-field">
-          <label htmlFor="nombre">Nombre:</label>
-          <InputText id="nombre" value={current.nombre} onChange={handleChange} />
-        </div>
-        <Button label="Guardar" icon="pi pi-check" onClick={save} />
+    <Dialog
+      visible={visible}
+      style={{ width: "420px" }}
+      header={categoria ? "Editar Categoría" : "Nueva Categoría"}
+      modal
+      className="p-fluid"
+      footer={footer}
+      onHide={onHide}
+    >
+      <div className="field">
+        <label htmlFor="nombre">Nombre *</label>
+        <InputText
+          id="nombre"
+          value={formData.nombre}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setFormData({ nombre: e.target.value })
+          }
+          required
+          autoFocus
+          className={submitted && !formData.nombre.trim() ? "p-invalid" : ""}
+        />
+        {submitted && !formData.nombre.trim() && (
+          <small className="p-error">Nombre es requerido.</small>
+        )}
       </div>
     </Dialog>
   );
 };
+
+export default CategoriaForm;

@@ -1,4 +1,6 @@
 export interface Categoria {
-  id: number;
+  id?: number;
   nombre: string;
 }
+
+export type CategoriaFormData = Omit<Categoria, "id">;

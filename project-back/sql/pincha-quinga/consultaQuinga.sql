@@ -24,6 +24,8 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Crear categoria
+-- 1) Actualizar funciones para NO forzar mayúsculas
+
 CREATE OR REPLACE FUNCTION crear_categoria(p_nombre VARCHAR)
 RETURNS categoria AS $$
 DECLARE
@@ -32,14 +34,14 @@ DECLARE
 BEGIN
     SELECT COUNT(*) INTO existe
     FROM categoria
-    WHERE UPPER(TRIM(nombre)) = UPPER(TRIM(p_nombre));
+    WHERE LOWER(TRIM(nombre)) = LOWER(TRIM(p_nombre));
 
     IF existe > 0 THEN
         RAISE EXCEPTION 'Ya existe una categoría con el nombre "%"', p_nombre;
     END IF;
 
     INSERT INTO categoria(nombre)
-    VALUES (UPPER(TRIM(p_nombre)))
+    VALUES (TRIM(p_nombre))
     RETURNING * INTO nueva_categoria;
 
     RETURN nueva_categoria;
@@ -47,17 +49,15 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- Actualizar categoria
 CREATE OR REPLACE FUNCTION actualizar_categoria(p_id INTEGER, p_nombre VARCHAR)
 RETURNS categoria AS $$
 DECLARE
     categoria_actualizada categoria;
     existe INTEGER;
 BEGIN
--- verificar si el nuevo nombre no usa otra categoría
     SELECT COUNT(*) INTO existe
     FROM categoria
-    WHERE UPPER(TRIM(nombre)) = UPPER(TRIM(p_nombre))
+    WHERE LOWER(TRIM(nombre)) = LOWER(TRIM(p_nombre))
       AND id <> p_id;
 
     IF existe > 0 THEN
@@ -65,7 +65,7 @@ BEGIN
     END IF;
 
     UPDATE categoria
-    SET nombre = UPPER(TRIM(p_nombre))
+    SET nombre = TRIM(p_nombre)
     WHERE id = p_id
     RETURNING * INTO categoria_actualizada;
 
