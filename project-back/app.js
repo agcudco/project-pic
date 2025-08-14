@@ -8,7 +8,8 @@ import homeRoutes from './routes/homeRoutes.js';
 import moduloRoutes from './routes/moduloRoutes.js';
 import rolRoutes from './routes/rolRoutes.js';
 import menuRoutes from './routes/menuRoutes.js';
-import ventaRoutes from './routes/ventaRoutes.js'; 
+import ventaRoutes from './routes/ventaRoutes.js';
+import accionesRoutes from './routes/acciones.js'; 
 
 const app = express();
 
@@ -25,5 +26,6 @@ app.use('/api', moduloRoutes);
 app.use('/api', rolRoutes); 
 app.use('/api', menuRoutes); 
 app.use('/api', ventaRoutes); 
+app.use('/api',accionesRoutes);
 
 export default app;

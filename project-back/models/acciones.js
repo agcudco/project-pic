@@ -1,7 +1,7 @@
 import pool from '../config/db.js';
 
 class Accion {
-  constructor({ id, nombre, id_menu, url, icono, descripcion, activo }) {
+  constructor({ id, nombre, id_menu, url, icono, descripcion, activo,fecha_creacion }) {
     this.id = id;
     this.nombre = nombre;
     this.id_menu = id_menu;
@@ -9,6 +9,7 @@ class Accion {
     this.icono = icono;
     this.descripcion = descripcion;
     this.activo = activo;
+    this.fecha_creacion = fecha_creacion ? new Date(fecha_creacion).toISOString() : null;
   }
 }
 
