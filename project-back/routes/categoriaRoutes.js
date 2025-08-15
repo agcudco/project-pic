@@ -6,7 +6,8 @@ import {
     createCategoria,
     updateCategoria,
     deleteCategoria,
-    searchCategorias
+    searchCategorias,
+    getCategoriasConDescuento
 } from '../controllers/categoriaController.js';
 
 const router = Router();
@@ -17,5 +18,8 @@ router.get('/categoria/:id', getCategoriaById);
 router.post('/categoria', createCategoria);
 router.put('/categoria/:id', updateCategoria);
 router.delete('/categoria/:id', deleteCategoria);
+
+// Nueva ruta para categorías con descuento aplicado
+router.get('/categorias-con-descuento', getCategoriasConDescuento);
 
 export default router;

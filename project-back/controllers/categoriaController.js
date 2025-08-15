@@ -1,3 +1,19 @@
+// Listar categorías con descuento aplicado (unión con promociones)
+import pool from '../config/db.js';
+export async function getCategoriasConDescuento(req, res) {
+    try {
+        const result = await pool.query(`
+            SELECT c.id as categoria_id, c.nombre as categoria_nombre, p.id as promocion_id, p.nombre as promocion_nombre, p.valor, p.fecha_inicio, p.fecha_fin
+            FROM categoria c
+            JOIN promocion_categoria pc ON c.id = pc.categoria_id
+            JOIN promocion p ON pc.promocion_id = p.id
+            ORDER BY c.nombre, p.fecha_inicio DESC
+        `);
+        res.json(result.rows);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
 
 import Categoria from '../models/Categoria.js';
 

@@ -10,7 +10,9 @@ import {
   deletePromocion,
   activarPromocion,
   desactivarPromocion,
-  aplicarDescuento
+  aplicarDescuento,
+  aplicarDescuentoCategoria,
+  aplicarDescuentoProducto
 } from '../controllers/promocionController.js';
 
 const router = Router();
@@ -33,5 +35,11 @@ router.patch('/promociones/:id/desactivar', desactivarPromocion);
 
 // Ruta para aplicar descuentos
 router.post('/promociones/aplicar-descuento', aplicarDescuento);
+
+// Ruta para aplicar descuento a categoría
+router.post('/promociones/aplicar-descuento-categoria', aplicarDescuentoCategoria);
+
+// Ruta para aplicar descuento a producto
+router.post('/promociones/aplicar-descuento-producto', aplicarDescuentoProducto);
 
 export default router;

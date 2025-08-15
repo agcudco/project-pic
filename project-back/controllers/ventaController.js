@@ -1,3 +1,21 @@
+// Obtener ventas con descuento aplicado y datos de la promoción
+import pool from '../config/db.js';
+export async function getVentasConDescuento(req, res) {
+  try {
+    const result = await pool.query(`
+      SELECT v.id AS venta_id, v.total AS total_original, vp.monto_descuento, 
+             (v.total - vp.monto_descuento) AS total_con_descuento,
+             p.nombre AS promocion_nombre, vp.promocion_id, vp.id AS venta_promocion_id, v.fecha_hora
+        FROM ventas.venta v
+        JOIN ventas.venta_promocion vp ON v.id = vp.venta_id
+        JOIN ventas.promocion p ON vp.promocion_id = p.id
+        ORDER BY v.fecha_hora DESC
+    `);
+    res.json(result.rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
 
 //REALIZADO POR KAREN YANEZ 
 

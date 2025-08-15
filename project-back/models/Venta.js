@@ -14,8 +14,8 @@ class Venta {
   }
 
   static async getAll() {
-    const result = await pool.query('SELECT * FROM obtener_ventas()');
-    return result.rows.map(row => new Venta(row));
+  const result = await pool.query('SELECT * FROM ventas.obtener_ventas()');
+  return result.rows.map(row => new Venta(row));
   }
 
   static async getById(id) {
