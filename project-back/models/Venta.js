@@ -1,5 +1,3 @@
-
-
 //REALIZADO POR JAMES MENA 
 import pool from '../config/db.js';
 
@@ -22,6 +20,7 @@ class Venta {
     if (result.rowCount === 0) return null;
     return new Venta(result.rows[0]);
   }
+  
   //REALIZADO POR ELIAN COLLAGUAZO
 
    static async getDetallesByVentaId(id) {

@@ -82,7 +82,7 @@ const VentaForm: React.FC<Props> = ({ onSubmit }) => {
     <form style={styles.form} onSubmit={handleSubmit}>
       <h2 style={styles.title}>Nueva Venta</h2>
 
-      <label style={styles.label}>ID Cliente</label>
+      <label style={styles.label}>Cliente</label>
       <input
         style={styles.input}
         type="number"
@@ -92,7 +92,7 @@ const VentaForm: React.FC<Props> = ({ onSubmit }) => {
         required
       />
 
-      <label style={styles.label}>IDs de productos</label>
+      <label style={styles.label}>productos</label>
       <input
         style={styles.input}
         type="text"

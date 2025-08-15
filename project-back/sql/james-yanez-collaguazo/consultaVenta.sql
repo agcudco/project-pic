@@ -219,3 +219,166 @@ BEGIN
   WHERE f.venta_id = p_venta_id;
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+
+
+CREATE OR REPLACE FUNCTION obtener_factura_por_venta_id(p_venta_id INT)
+RETURNS TABLE(
+    factura_id INT,
+    venta_id INT,
+    cliente_nombre VARCHAR,
+    tipo VARCHAR,
+    numero VARCHAR,
+    fecha_emision DATE,
+    monto_total NUMERIC(12,2)
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        f.id,
+        v.id,
+        c.nombre AS cliente_nombre,
+        f.tipo,
+        f.numero,
+        f.fecha_emision,
+        f.monto_total
+    FROM factura f
+    INNER JOIN venta v ON f.venta_id = v.id
+    INNER JOIN cliente c ON v.cliente_id = c.id
+    WHERE f.venta_id = p_venta_id;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION get_factura(p_factura_id INT)
+RETURNS TABLE(
+    factura_id INT,
+    numero VARCHAR,
+    tipo VARCHAR,
+    fecha_emision DATE,
+    monto_total NUMERIC(12,2),
+    venta_id INT,
+    cliente_nombre VARCHAR,
+    cliente_id INT
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        f.id AS factura_id,
+        f.numero,
+        f.tipo,
+        f.fecha_emision,
+        f.monto_total,
+        v.id AS venta_id,
+        c.nombre AS cliente_nombre,
+        c.id AS cliente_id
+    FROM factura f
+    JOIN venta v ON v.id = f.venta_id
+    JOIN cliente c ON c.id = v.cliente_id
+    WHERE f.id = p_factura_id;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Obtener todas las facturas
+CREATE OR REPLACE FUNCTION obtener_facturas()
+RETURNS TABLE(
+    id INT,
+    venta_id INT,
+    tipo VARCHAR,
+    numero VARCHAR,
+    fecha_emision DATE,
+    monto_total NUMERIC
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT f.id, f.venta_id, f.tipo, f.numero, f.fecha_emision, f.monto_total
+    FROM factura f
+    ORDER BY f.id;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Obtener factura por ID
+CREATE OR REPLACE FUNCTION obtener_factura_por_id(p_id INT)
+RETURNS TABLE(
+    id INT,
+    venta_id INT,
+    tipo VARCHAR,
+    numero VARCHAR,
+    fecha_emision DATE,
+    monto_total NUMERIC
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT f.id, f.venta_id, f.tipo, f.numero, f.fecha_emision, f.monto_total
+    FROM factura f
+    WHERE f.id = p_id;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Ver detalle de una factura (relacionado a los productos de la venta asociada)
+CREATE OR REPLACE FUNCTION ver_detalle_factura(p_id INT)
+RETURNS TABLE(
+    producto_nombre VARCHAR,
+    cantidad INT,
+    precio NUMERIC,
+    subtotal NUMERIC
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT p.nombre, dv.cantidad, dv.precio_unitario, (dv.cantidad * dv.precio_unitario)
+    FROM factura f
+    JOIN venta v ON f.venta_id = v.id
+    JOIN detalle_venta dv ON v.id = dv.venta_id
+    JOIN producto p ON dv.producto_id = p.id
+    WHERE f.id = p_id;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Registrar nueva factura
+CREATE OR REPLACE FUNCTION registrar_factura(
+    p_venta_id INT,
+    p_tipo VARCHAR,
+    p_numero VARCHAR,
+    p_fecha_emision DATE,
+    p_monto_total NUMERIC
+) RETURNS VOID AS $$
+BEGIN
+    INSERT INTO factura (venta_id, tipo, numero, fecha_emision, monto_total)
+    VALUES (p_venta_id, p_tipo, p_numero, p_fecha_emision, p_monto_total);
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Actualizar factura
+CREATE OR REPLACE FUNCTION actualizar_factura(
+    p_id INT,
+    p_tipo VARCHAR,
+    p_numero VARCHAR,
+    p_fecha_emision DATE,
+    p_monto_total NUMERIC
+) RETURNS VOID AS $$
+BEGIN
+    UPDATE factura
+    SET tipo = p_tipo,
+        numero = p_numero,
+        fecha_emision = p_fecha_emision,
+        monto_total = p_monto_total
+    WHERE id = p_id;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Anular factura
+CREATE OR REPLACE FUNCTION anular_factura(p_id INT)
+RETURNS BOOLEAN AS $$
+BEGIN
+    DELETE FROM factura WHERE id = p_id;
+    RETURN TRUE;
+END;
+$$ LANGUAGE plpgsql;

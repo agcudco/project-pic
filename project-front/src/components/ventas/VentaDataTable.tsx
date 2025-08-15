@@ -110,12 +110,7 @@ const VentaDataTable: React.FC<Props> = ({ ventas, onEdit, onDelete,onViewDetail
                     >
                       ❌ Anular
                     </button>
-                    <button
-  style={{ ...styles.button, backgroundColor: "#28a745", color: "white" }}
-  onClick={() => onFactura(venta)}
->
-  🧾 Factura
-</button>
+                   
                   </td>
                 </tr>
               ))}
